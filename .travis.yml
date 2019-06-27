@@ -31,7 +31,7 @@ deploy:
     bucket: travis-cicd-test # 6-3-3에서 생성한 S3 버킷
     region: ap-northeast-2
     skip_cleanup: true
-    acl: public_read
+#    acl: public_read
     wait-until-deployed: true
     local_dir: deploy # before에서 생성한 디렉토리명
     on:
