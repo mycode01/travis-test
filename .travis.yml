@@ -12,9 +12,31 @@ cache:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
 
-script:
+before_install:
   - "chmod +x gradlew"
+
+script:
+#  - "chmod +x gradlew"
   - "./gradlew clean build"
+
+before_deploy:
+  - "zip -r travis-test"
+  - "mkdir -p deploy"
+  - "mv travis-test deploy/travis-test.zip"
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: travis-cicd-test # 6-3-3에서 생성한 S3 버킷
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: public_read
+    wait-until-deployed: true
+    local_dir: deploy # before에서 생성한 디렉토리명
+    on:
+      repo: mycode01/travis-test #Github 주소
+      branch: master
 
 # CI 실행 완료시 메일로 알람
 notifications:
