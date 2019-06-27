@@ -22,7 +22,7 @@ script:
 before_deploy:
   - "zip -r travis-test *"
   - "mkdir -p deploy"
-  - "mv travis-test deploy/travis-test.zip"
+  - "mv travis-test.zip deploy/travis-test.zip"
 
 deploy:
   - provider: s3
